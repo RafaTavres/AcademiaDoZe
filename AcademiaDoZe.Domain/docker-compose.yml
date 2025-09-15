@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: sqlserver
+    hostname: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "abcBolinhas12345"
+    volumes:
+      - mssql:/var/opt/mssql
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "abcBolinhas12345"
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mssql:
+  mysql:

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.DashboardListPage"
+             xmlns:vm="clr-namespace:AcademiaDoZe.Presentation.AppMaui.ViewModels"
+             x:DataType="vm:DashboardListViewModel"
+             Title="{Binding Title}">
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*" Padding="15">
+            <!-- Header -->
+            <StackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,20">
+                <Image HeightRequest="150" WidthRequest="150">
+                    <Image.Source>
+                        <AppThemeBinding Light="academiadoze_claro.png" Dark="academiadoze_dark.png" />
+                    </Image.Source>
+                </Image>
+                <Label Text="Academia do Zé" Style="{StaticResource Headline}" HorizontalTextAlignment="Center"/>
+                <Label Text="Sistema de Gerenciamento" Style="{StaticResource SubHeadline}" HorizontalTextAlignment="Center"/>
+            </StackLayout>
+
+            <!-- Cards Container - Vertical List -->
+            <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="FillAndExpand">
+
+                <!-- Card Logradouros -->
+                <Border Style="{StaticResource CardBorder}" HorizontalOptions="FillAndExpand">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToLogradourosCommand}"/>
+                    </Border.GestureRecognizers>
+                    <StackLayout Spacing="10" Padding="15">
+                        <Label Text="{Binding TotalLogradouros}" Style="{StaticResource SubHeadline}" HorizontalTextAlignment="Center"/>
+                        <Label Text="Logradouros" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Border>
+
+                <!-- Card Alunos -->
+                <Border Style="{StaticResource CardBorder}" HorizontalOptions="FillAndExpand">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToAlunosCommand}"/>
+                    </Border.GestureRecognizers>
+                    <StackLayout Spacing="10" Padding="15">
+                        <Label Text="{Binding TotalAlunos}" Style="{StaticResource SubHeadline}" HorizontalTextAlignment="Center"/>
+                        <Label Text="Alunos" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Border>
+
+                <!-- Card Colaboradores -->
+                <Border Style="{StaticResource CardBorder}" HorizontalOptions="FillAndExpand">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToColaboradoresCommand}"/>
+                    </Border.GestureRecognizers>
+                    <StackLayout Spacing="10" Padding="15">
+                        <Label Text="{Binding TotalColaboradores}" Style="{StaticResource SubHeadline}" HorizontalTextAlignment="Center"/>
+                        <Label Text="Colaboradores" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Border>
+
+                <!-- Card Matrículas -->
+                <Border Style="{StaticResource CardBorder}" HorizontalOptions="FillAndExpand">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToMatriculasCommand}"/>
+                    </Border.GestureRecognizers>
+                    <StackLayout Spacing="10" Padding="15">
+                        <Label Text="{Binding TotalMatriculas}" Style="{StaticResource SubHeadline}" HorizontalTextAlignment="Center"/>
+                        <Label Text="Matrículas" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ScrollView>
+</ContentPage>
