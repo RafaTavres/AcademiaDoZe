@@ -16,8 +16,13 @@
                 <!-- Entry de busca -->
                 <Entry Grid.Column="2" Text="{Binding SearchText}" Placeholder="Digite o valor..." HeightRequest="40" VerticalOptions="Center" Margin="0,0,0,0"/>
                 <!-- Botão de busca -->
-                <Button Grid.Column="4" Text="Buscar" Style="{StaticResource ButtonPrimary}" FontSize="14" WidthRequest="80" HeightRequest="40" Margin="0,0,0,0"
-                        Command="{Binding SearchLogradourosCommand}"/>
+                <Button Grid.Column="4" Style="{StaticResource ButtonPrimary}" FontSize="14" WidthRequest="40" HeightRequest="40" Margin="0,0,0,0"
+                        Command="{Binding SearchLogradourosCommand}" Padding="0">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b6;" Color="White" Size="20" />
+                        <!-- Ícone de busca -->
+                    </Button.ImageSource>
+                </Button>
             </Grid>
         </Border>
         <!-- Lista de Logradouros com FAB - "Floating Action Button" - Botão de Ação Flutuante -->
@@ -39,7 +44,6 @@
                         <DataTemplate x:DataType="dto:LogradouroDTO">
                             <Grid Padding="1" Margin="5">
                                 <Border Style="{StaticResource CardBorder}" Margin="0" Padding="15">
-                                    <!-- Ajustado Margin e Padding para o card ficar mais compacto -->
                                     <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto,Auto">
                                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding Cep}" FontAttributes="Bold" Margin="0,0,0,5" FontSize="16"/>
                                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding Nome}" Margin="0,0,0,5"/>
@@ -56,10 +60,20 @@
                                         <Label Grid.Row="4" Grid.Column="0" Text="{Binding Pais}" Margin="0,0,10,10"/>
                                         <!-- Adicionado margin bottom para separar dos botões -->
 
-                                        <!-- Botões de Ação -->
+                                        <!-- Botões de Ação com Ícones -->
                                         <StackLayout Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalOptions="End" Spacing="5" Margin="0,10,0,0">
-                                            <Button Text="Editar" Style="{StaticResource ButtonSmall}" Clicked="OnEditButtonClicked" WidthRequest="70" />
-                                            <Button Text="Excluir" Style="{StaticResource ButtonDanger}" Clicked="OnDeleteButtonClicked" WidthRequest="70" />
+                                            <Button Style="{StaticResource ButtonSmall}" WidthRequest="40" HeightRequest="40" Padding="0" Clicked="OnEditButtonClicked">
+                                                <Button.ImageSource>
+                                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe3c9;" Color="White" Size="20" />
+                                                    <!-- Ícone de Editar -->
+                                                </Button.ImageSource>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonDanger}" WidthRequest="40" HeightRequest="40" Padding="0" Clicked="OnDeleteButtonClicked">
+                                                <Button.ImageSource>
+                                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe872;" Color="White" Size="20" />
+                                                    <!-- Ícone de Excluir -->
+                                                </Button.ImageSource>
+                                            </Button>
                                         </StackLayout>
                                     </Grid>
                                 </Border>
@@ -70,7 +84,7 @@
             </RefreshView>
             <!-- Floating Action Button -->
             <Button Text="+" Command="{Binding AddLogradouroCommand}" Style="{StaticResource ButtonPrimary}"
-                    WidthRequest="56" HeightRequest="56" HorizontalOptions="End" VerticalOptions="End" Margin="20,20,20,20">
+                    WidthRequest="56" HeightRequest="56" HorizontalOptions="End" VerticalOptions="End" Margin="20,20,20,20" FontSize="30">
                 <Button.Shadow>
                     <Shadow Brush="{AppThemeBinding Light=Black, Dark=Gray}" Offset="0,4" Radius="8" Opacity="0.3"/>
                 </Button.Shadow>
