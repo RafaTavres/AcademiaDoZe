@@ -31,7 +31,21 @@
                 <CollectionView ItemsSource="{Binding Logradouros}" SelectionMode="None">
                     <!-- AQUI ESTÁ A MUDANÇA PRINCIPAL PARA O LAYOUT DE GRID -->
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                        <GridItemsLayout Orientation="Vertical">
+                            <!-- Span conforme OnIdiom - utilizando objeto filho -->
+
+                            <!-- lista ou grade -->
+                            <GridItemsLayout.Span>
+
+                                <OnIdiom x:TypeArguments="x:Int32">
+                                    <OnIdiom.Phone>1</OnIdiom.Phone>
+                                    <OnIdiom.Default>1</OnIdiom.Default>
+                                    <OnIdiom.Tablet>2</OnIdiom.Tablet>
+                                    <OnIdiom.Desktop>3</OnIdiom.Desktop>
+                                    <OnIdiom.TV>4</OnIdiom.TV>
+                                </OnIdiom>
+                            </GridItemsLayout.Span>
+                        </GridItemsLayout>
                     </CollectionView.ItemsLayout>
                     <!-- FIM DA MUDANÇA PRINCIPAL -->
                     <CollectionView.EmptyView>
