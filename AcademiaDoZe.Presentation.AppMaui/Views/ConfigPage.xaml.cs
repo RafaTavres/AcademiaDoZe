@@ -4,11 +4,17 @@ using CommunityToolkit.Mvvm.Messaging;
 namespace AcademiaDoZe.Presentation.AppMaui.Views;
 public partial class ConfigPage : ContentPage
 {
+    private VisualElement[] _focusOrder = [];
     public ConfigPage()
     {
         InitializeComponent();
         CarregarTema();
         CarregarBanco();
+
+        TemaPicker.SelectedIndexChanged += OnSalvarTemaClicked;
+        // inicializa a ordem de foco dos controles
+        _focusOrder = [
+        DatabaseTypePicker, ServidorEntry, BancoEntry, UsuarioEntry, SenhaEntry, ComplementoEntry ];
     }
     private void CarregarTema()
     {
@@ -22,8 +28,6 @@ public partial class ConfigPage : ContentPage
         // Disparar mensagem para uso na recarga dinâmica
         WeakReferenceMessenger.Default.Send(new TemaPreferencesUpdatedMessage("TemaAlterado"));
         await DisplayAlert("Sucesso", "Dados salvos com sucesso!", "OK");
-        // Navegar para dashboard
-        await Shell.Current.GoToAsync("//dashboard");
     }
 
     // Banco de Dados
@@ -68,6 +72,32 @@ public partial class ConfigPage : ContentPage
         base.OnDisappearing();
         // Desinscreve o mensageiro para evitar memory leaks
         WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
+
+
+    private void OnEntryCompleted(object sender, EventArgs e)
+    {
+        if (sender is not VisualElement current)
+            return;
+        int idx = Array.IndexOf(_focusOrder, current);
+        if (idx >= 0)
+        {
+            if (idx < _focusOrder.Length - 1)
+            {
+                // foca o próximo controle
+                _focusOrder[idx + 1].Focus();
+            }
+            else
+            {
+                // último item -> submete
+                OnSalvarBdClicked(sender, e);
+            }
+        }
+        else
+        {
+            // fallback simples: avançar para o primeiro focável se não estiver na lista
+            _focusOrder.FirstOrDefault()?.Focus();
+        }
     }
 
 

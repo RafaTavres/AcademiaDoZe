@@ -27,6 +27,8 @@ namespace AcademiaDoZe.Presentation.AppMaui
             builder.Services.AddTransient<LogradouroViewModel>();
             builder.Services.AddTransient<ColaboradorListViewModel>();
             builder.Services.AddTransient<ColaboradorViewModel>();
+            builder.Services.AddTransient<AlunoListViewModel>();
+            builder.Services.AddTransient<AlunoViewModel>();
 
             // Registrar Views
             builder.Services.AddTransient<DashboardListPage>();
@@ -35,6 +37,8 @@ namespace AcademiaDoZe.Presentation.AppMaui
             builder.Services.AddTransient<ConfigPage>();
             builder.Services.AddTransient<ColaboradorListPage>();
             builder.Services.AddTransient<ColaboradorPage>();
+            builder.Services.AddTransient<AlunoListPage>();
+            builder.Services.AddTransient<AlunoPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

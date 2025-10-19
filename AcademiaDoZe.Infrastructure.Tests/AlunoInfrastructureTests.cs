@@ -153,11 +153,11 @@ namespace AcademiaDoZe.Infrastructure.Tests
 
                 // Act
                 var repoObterPorCpfAluno = new AlunoRepository(ConnectionString, DatabaseType);
-                var alunoEncontrado = await repoObterPorCpfAluno.ObterPorCpf(cpf);
+                var alunosEncontrados = await repoObterPorCpfAluno.ObterPorCpf(cpf);
 
                 // Assert
-                Assert.NotNull(alunoEncontrado);
-                Assert.Equal(alunoInserido.Id, alunoEncontrado.Id);
+                Assert.NotNull(alunosEncontrados);
+                Assert.Equal(alunoInserido.Id, alunosEncontrados.First().Id);
             }
             finally
             {

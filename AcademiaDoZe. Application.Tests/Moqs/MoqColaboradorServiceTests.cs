@@ -3,6 +3,7 @@ using AcademiaDoZe.Application.DTOs;
 using AcademiaDoZe.Application.Enums;
 using AcademiaDoZe.Application.Interfaces;
 using Moq;
+using System.Collections.Generic;
 namespace AcademiaDoZe._Application.Tests.Moqs
 {
     public class MoqColaboradorServiceTests
@@ -32,6 +33,32 @@ namespace AcademiaDoZe._Application.Tests.Moqs
                 Tipo = EAppColaboradorTipo.Administrador,
                 Vinculo = EAppColaboradorVinculo.CLT
             };
+        }
+
+        private IEnumerable<ColaboradorDTO> CriarColaboradoresPadrao(int id = 1)
+        {
+            var colaborador =  new ColaboradorDTO
+            {
+                Id = id,
+                Nome = "Colaborador Teste",
+                Cpf = "12345678901",
+                DataNascimento = DateOnly.FromDateTime(DateTime.Now.AddYears(-30)),
+                Telefone = "11999999999",
+                Email = "colaborador@teste.com",
+                Endereco = new LogradouroDTO { Id = 1, Cep = "12345678", Nome = "Rua Teste", Bairro = "Centro", Cidade = "São Paulo", Estado = "SP", Pais = "Brasil" },
+                Numero = "100",
+                Complemento = "Apto 101",
+                Senha = "Senha@123",
+                DataAdmissao = DateOnly.FromDateTime(DateTime.Now.AddYears(-1)),
+                Tipo = EAppColaboradorTipo.Administrador,
+                Vinculo = EAppColaboradorVinculo.CLT
+            };
+
+            IEnumerable<ColaboradorDTO> colaboradores = new List<ColaboradorDTO>();
+
+            colaboradores.Append(colaborador);
+
+            return colaboradores;
         }
         // [Theory] indica um método de teste que pode receber dados de diferentes fontes.
         // [InlineData] fornece diretamente esses dados (cpf, id, e resultadoEsperado) para que o teste seja executado múltiplas vezes com valores distintos, testando diversos cenários de uma vez.
@@ -183,10 +210,11 @@ CriarColaboradorPadrao(2)
             // Arrange
 
             var cpf = "12345678901";
-            var colaboradorDto = CriarColaboradorPadrao(1);
+            var colaboradoresDto = CriarColaboradoresPadrao(1);
 
-            colaboradorDto.Cpf = cpf;
-            _colaboradorServiceMock.Setup(s => s.ObterPorCpfAsync(cpf)).ReturnsAsync(colaboradorDto);
+            colaboradoresDto.First().Cpf = cpf;
+
+            _colaboradorServiceMock.Setup(s => s.ObterPorCpfAsync(cpf)).ReturnsAsync(colaboradoresDto);
             // Act
 
             var result = await _colaboradorService.ObterPorCpfAsync(cpf);
@@ -194,7 +222,7 @@ CriarColaboradorPadrao(2)
             // Assert
 
             Assert.NotNull(result);
-            Assert.Equal(cpf, result.Cpf);
+            Assert.Equal(cpf, result.First().Cpf);
 
             _colaboradorServiceMock.Verify(s => s.ObterPorCpfAsync(cpf), Times.Once);
         }
@@ -206,7 +234,7 @@ CriarColaboradorPadrao(2)
 
             var cpf = "99999999999";
 
-            _colaboradorServiceMock.Setup(s => s.ObterPorCpfAsync(cpf)).ReturnsAsync((ColaboradorDTO)null!);
+            _colaboradorServiceMock.Setup(s => s.ObterPorCpfAsync(cpf)).ReturnsAsync((IEnumerable<ColaboradorDTO>)null!);
             // Act
 
             var result = await _colaboradorService.ObterPorCpfAsync(cpf);

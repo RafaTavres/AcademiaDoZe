@@ -56,13 +56,20 @@ namespace AcademiaDoZe.Application.Services
             return await _repoFactory().CpfJaExiste(cpf, id);
         }
 
-        public async Task<AlunoDTO> ObterPorCpfAsync(string cpf)
+        public async Task<IEnumerable<AlunoDTO>> ObterPorCpfAsync(string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))
                 throw new ArgumentException("CPF não pode ser vazio.", nameof(cpf));
-            cpf = new string([.. cpf.Where(char.IsDigit)]);
-            var aluno = await _repoFactory().ObterPorCpf(cpf);
-            return (aluno != null) ? aluno.ToDto() : null!;
+
+            // mantém apenas dígitos - normaliza
+            cpf = new string(cpf.Where(char.IsDigit).ToArray());
+            // busca no repositório (já faz LIKE por prefixo)
+
+            var alunos = await _repoFactory().ObterPorCpf(cpf) ?? Enumerable.Empty<Domain.Entities.Aluno>();
+
+            // mapeia para DTOs e retorna
+
+            return alunos.Select(c => c.ToDto());
         }
 
         public async Task<AlunoDTO> ObterPorIdAsync(int id)

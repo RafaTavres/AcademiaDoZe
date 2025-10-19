@@ -14,7 +14,7 @@ namespace AcademiaDoZe.Application.Interfaces
         Task<AlunoDTO> AdicionarAsync(AlunoDTO alunoDto);
         Task<AlunoDTO> AtualizarAsync(AlunoDTO alunoDto);
         Task<bool> RemoverAsync(int id);
-        Task<AlunoDTO> ObterPorCpfAsync(string cpf);
+        Task<IEnumerable<AlunoDTO>> ObterPorCpfAsync(string cpf);
         Task<bool> CpfJaExisteAsync(string cpf, int? id = null);
     }
 }

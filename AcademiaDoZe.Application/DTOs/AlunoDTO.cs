@@ -18,7 +18,6 @@ namespace AcademiaDoZe.Application.DTOs
         public required LogradouroDTO Endereco { get; set; }
         public required string Numero { get; set; }
         public string? Complemento { get; set; }
-        public string? Senha { get; set; }
         public ArquivoDTO? Foto { get; set; }
     }
 }

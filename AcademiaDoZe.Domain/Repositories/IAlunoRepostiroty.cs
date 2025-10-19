@@ -9,7 +9,7 @@ namespace AcademiaDoZe.Domain.Repositories
 {
     public interface IAlunoRepository : IRepository<Aluno>
     {
-        Task<Aluno?> ObterPorCpf(string cpf);
+        Task<IEnumerable<Aluno?>> ObterPorCpf(string cpf);
 
         Task<bool> CpfJaExiste(string cpf, int? id = null);
     }

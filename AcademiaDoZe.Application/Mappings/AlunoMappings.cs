@@ -24,7 +24,6 @@ namespace AcademiaDoZe.Application.Mappings
                 Endereco = aluno.Endereco.ToDto(), // Mapeia o logradouro para DTO
                 Numero = aluno.Numero,
                 Complemento = aluno.Complemento,
-                Senha = null, // a senha não deve ser exposta no DTO
                 Foto = aluno.Foto != null ? new ArquivoDTO { Conteudo = aluno.Foto.Conteudo } : null // Mapeia a foto para DTO
             };
         }

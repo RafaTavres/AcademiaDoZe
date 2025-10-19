@@ -63,10 +63,11 @@ namespace AcademiaDoZe.Infrastructure.Tests
             var _cpf = "12345678900";
             Arquivo arquivo = Arquivo.Criar(new byte[] { 1, 2, 3 }, ".pdf");
             var repoColaboradorObterPorCpf = new ColaboradorRepository(ConnectionString, DatabaseType);
-            var colaboradorExistente = await repoColaboradorObterPorCpf.ObterPorCpf(_cpf);
-            Assert.NotNull(colaboradorExistente);
+            var colaboradoresExistentes = await repoColaboradorObterPorCpf.ObterPorCpf(_cpf);
+            Assert.NotNull(colaboradoresExistentes);
 
             // criar novo colaborador com os mesmos dados, editando o que quiser
+            var colaboradorExistente = colaboradoresExistentes.First();
             var colaboradorAtualizado = Colaborador.Criar(
 
             "zé dos testes 123",
@@ -101,10 +102,11 @@ namespace AcademiaDoZe.Infrastructure.Tests
         {
             var _cpf = "12345678900";
             var repoColaboradorObterPorCpf = new ColaboradorRepository(ConnectionString, DatabaseType);
-            var colaboradorExistente = await repoColaboradorObterPorCpf.ObterPorCpf(_cpf);
-            Assert.NotNull(colaboradorExistente);
+            var colaboradoresExistentes = await repoColaboradorObterPorCpf.ObterPorCpf(_cpf);
+            Assert.NotNull(colaboradoresExistentes);
 
             // Remover
+            var colaboradorExistente = colaboradoresExistentes.First();
             var repoColaboradorRemover = new ColaboradorRepository(ConnectionString, DatabaseType);
             var resultadoRemover = await repoColaboradorRemover.Remover(colaboradorExistente.Id);
             Assert.True(resultadoRemover);

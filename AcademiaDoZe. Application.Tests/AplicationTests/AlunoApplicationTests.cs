@@ -55,7 +55,8 @@ namespace AcademiaDoZe._Application.Tests.AplicationTests
                 Assert.Equal(cpfUnico, alunoCriado.Cpf);
 
                 // Act - Obter por CPF
-                var obtidoPorCpf = await alunoService.ObterPorCpfAsync(cpfUnico);
+                var obtidosPorCpf = await alunoService.ObterPorCpfAsync(cpfUnico);
+                var obtidoPorCpf = System.Linq.Enumerable.FirstOrDefault(obtidosPorCpf);
                 Assert.NotNull(obtidoPorCpf);
                 Assert.Equal("Aluno Teste", obtidoPorCpf.Nome);
 
