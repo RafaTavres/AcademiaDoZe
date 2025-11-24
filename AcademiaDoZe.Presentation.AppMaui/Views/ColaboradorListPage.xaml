@@ -8,8 +8,6 @@
         xmlns:converters="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Converters"
         Title="{Binding Title}">
 
-    <!-- <ContentPage.Resources> é o dicionário de recursos local da página. -->
-
     <!-- estrutura principal da página -->
     <Grid RowDefinitions="Auto,*">
         <!-- Search Bar -->
@@ -84,6 +82,8 @@ Utilizamos OnIdiom para ajustar propriedades conforme o tipo de dispositivo: Pho
     <ContentPage.Resources>
         <converters:FotoToImageSourceConverter x:Key="FotoToImageSourceConverter" />
         <converters:EnumDisplayConverter x:Key="EnumDisplay" />
+        <converters:DateOnlyShortToStringConverter x:Key="DateOnlyShortToStringConverter" />
+        <converters:DateOnlyLongToStringConverter x:Key="DateOnlyLongToStringConverter" />
         <!-- criamos um template único para Phone, Tablet, Desktop, TV, Watch e Default -->
         <DataTemplate x:Key="ColaboradorItemTemplate" x:DataType="dto:ColaboradorDTO">
             <Grid Padding="1" Margin="5">
@@ -119,8 +119,8 @@ Utilizamos OnIdiom para ajustar propriedades conforme o tipo de dispositivo: Pho
                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding Cpf}" Margin="0,0,0,5"/>
                         <Label Grid.Row="2" Grid.Column="0" Text="{Binding Telefone}" Margin="0,0,0,5"/>
                         <Label Grid.Row="3" Grid.Column="0" Text="{Binding Email}" Margin="0,0,0,5"/>
-                        <Label Grid.Row="4" Grid.Column="0" Text="{Binding DataNascimento}" Margin="0,0,0,5"/>
-                        <Label Grid.Row="5" Grid.Column="0" Text="{Binding DataAdmissao}" Margin="0,0,0,5"/>
+                        <Label Grid.Row="4" Grid.Column="0" Text="{Binding DataNascimento,Converter={StaticResource DateOnlyLongToStringConverter}}" Margin="0,0,0,5"/>
+                        <Label Grid.Row="5" Grid.Column="0" Text="{Binding DataAdmissao, Converter={StaticResource DateOnlyShortToStringConverter}}" Margin="0,0,0,5"/>
                         <Label Grid.Row="6" Grid.Column="0" Text="{Binding Tipo, Converter={StaticResource EnumDisplay}}" Margin="0,0,0,5"/>
                         <Label Grid.Row="7" Grid.Column="0" Text="{Binding Vinculo, Converter={StaticResource EnumDisplay}}" Margin="0,0,0,5"/>
                         <Label Grid.Row="8" Grid.Column="0" Margin="0,0,0,5">

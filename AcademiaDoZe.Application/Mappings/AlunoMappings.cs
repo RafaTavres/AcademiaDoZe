@@ -47,7 +47,7 @@ namespace AcademiaDoZe.Application.Mappings
         {
             return Aluno.Criar(
 
-            alunoDto.Id,alunoDto.Nome, alunoDto.Cpf, alunoDto.DataNascimento, alunoDto.Telefone, alunoDto.Email!, (alunoDto.Foto?.Conteudo != null) ? Arquivo.Criar(alunoDto.Foto.Conteudo, "png") : null!, alunoDto.Numero,  alunoDto.Complemento!, alunoDto.Endereco.ToEntity()
+            alunoDto.Id,alunoDto.Nome, alunoDto.Cpf, alunoDto.DataNascimento, alunoDto.Telefone, alunoDto.Email!, (alunoDto.Foto?.Conteudo != null) ? Arquivo.Criar(alunoDto.Foto.Conteudo, ".png") : null!, alunoDto.Numero,  alunoDto.Complemento!, alunoDto.Endereco.ToEntity()
 
             );
         }

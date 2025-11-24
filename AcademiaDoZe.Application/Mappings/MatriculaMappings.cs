@@ -30,14 +30,14 @@ namespace AcademiaDoZe.Application.Mappings
         {
             return Matricula.Criar(
             matriculaDto.Id,
-            matriculaDto.AlunoMatricula.ToEntityMatricula(), // Mapeia aluno do DTO para a entidade, resolvendo o caso da senha null
+            matriculaDto.AlunoMatricula.ToEntityMatricula(),
             matriculaDto.Plano.ToEntity(),
             matriculaDto.DataInicio,
             matriculaDto.DataFim,
             matriculaDto.Objetivo,
             matriculaDto.RestricoesMedicas.ToDomain(),
             matriculaDto.ObservacoesRestricoes!,
-            (matriculaDto.LaudoMedico?.Conteudo != null) ? Arquivo.Criar(matriculaDto.LaudoMedico.Conteudo,"png") : null! // Mapeia laudo do DTO para a entidade
+            (matriculaDto.LaudoMedico?.Conteudo != null) ? Arquivo.Criar(matriculaDto.LaudoMedico.Conteudo,".png") : null! // Mapeia laudo do DTO para a entidade
             );
         }
         public static Matricula UpdateFromDto(this Matricula matricula, MatriculaDTO matriculaDto)
@@ -51,7 +51,7 @@ namespace AcademiaDoZe.Application.Mappings
             matriculaDto.Objetivo ?? matricula.Objetivo,
             matriculaDto.RestricoesMedicas != default ? matriculaDto.RestricoesMedicas.ToDomain() : matricula.Restricoes,
             matriculaDto.ObservacoesRestricoes ?? matricula.ObservacoesRestricoes,
-            (matriculaDto.LaudoMedico?.Conteudo != null) ? Arquivo.Criar(matriculaDto.LaudoMedico.Conteudo,"png") : matricula.LaudoMedico // Atualiza laudo se fornecido
+            (matriculaDto.LaudoMedico?.Conteudo != null) ? Arquivo.Criar(matriculaDto.LaudoMedico.Conteudo,".png") : matricula.LaudoMedico // Atualiza laudo se fornecido
             );
         }
     }

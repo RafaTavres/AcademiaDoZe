@@ -194,7 +194,7 @@ namespace AcademiaDoZe.Infrastructure.Repositories
                     objetivo: reader["objetivo"].ToString()!,
                     restricoes: (EMatriculaRestricoesEnum)Convert.ToInt32(reader["restricao_medica"]),
                     observacoesRestricoes: reader["obs_restricao"]?.ToString(),
-                    laudoMedico: reader["laudo_medico"] is DBNull ? null : Arquivo.Criar((byte[])reader["laudo_medico"], "pdf")
+                    laudoMedico: reader["laudo_medico"] is DBNull ? null : Arquivo.Criar((byte[])reader["laudo_medico"], ".pdf")
                 );
 
                 var idProperty = typeof(Entity).GetProperty("Id");

@@ -17,10 +17,10 @@ namespace AcademiaDoZe.Presentation.AppMaui.ViewModels
             Cpf = string.Empty,
             DataNascimento = DateOnly.FromDateTime(DateTime.Today.AddYears(-18)),
             Telefone = string.Empty,
-            Email = string.Empty, // Campo adicionado
+            Email = string.Empty,
             Endereco = new LogradouroDTO { Cep = string.Empty, Nome = string.Empty, Bairro = string.Empty, Cidade = string.Empty, Estado = string.Empty, Pais = string.Empty },
             Numero = string.Empty,
-            Complemento = string.Empty, // Campo adicionado
+            Complemento = string.Empty,
         };
 
         public AlunoDTO Aluno

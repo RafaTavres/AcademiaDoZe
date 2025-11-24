@@ -42,6 +42,7 @@ namespace AcademiaDoZe._Application.Tests.AplicationTests
             try
             {
                 // ARRANGE - Passo 2: Preparar o DTO da Matrícula
+                List<EAppMatriculaRestricoes> listaRestricoes = new (){ EAppMatriculaRestricoes.None };
                 var matriculaDto = new MatriculaDTO
                 {
                     AlunoMatricula = aluno,
@@ -49,7 +50,7 @@ namespace AcademiaDoZe._Application.Tests.AplicationTests
                     DataInicio = DateOnly.FromDateTime(DateTime.Now),
                     DataFim = DateOnly.FromDateTime(DateTime.Now.AddYears(1)),
                     Objetivo = "Hipertrofia",
-                    RestricoesMedicas = EAppMatriculaRestricoes.None,
+                    RestricoesMedicas = listaRestricoes,
                 };
 
                 // ACT - Adicionar Matrícula

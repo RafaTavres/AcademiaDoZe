@@ -25,7 +25,7 @@ namespace AcademiaDoZe.Application.Mappings
         }
         public static Logradouro ToEntity(this LogradouroDTO logradouroDto)
         {
-            return Logradouro.Criar(
+            return Logradouro.Criar( 
             logradouroDto.Id,
             logradouroDto.Cep,
             logradouroDto.Nome,

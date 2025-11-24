@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AcademiaDoZe.Presentation.AppMaui.Views.MatriculaPage"
+             xmlns:vm="clr-namespace:AcademiaDoZe.Presentation.AppMaui.ViewModels"
+             xmlns:enums="clr-namespace:AcademiaDoZe.Application.Enums;assembly=AcademiaDoZe.Application"
+             xmlns:converters="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Converters"
+             xmlns:helpers="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Helpers" 
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="vm:MatriculaViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <converters:DateOnlyToDateTimeConverter x:Key="DateOnlyConverter" />
+        <converters:EnumDisplayConverter x:Key="EnumDisplay" />
+        <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+        <converters:NotNullOrEmptyConverter x:Key="NotNullOrEmptyConverter" />
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        <converters:FotoToImageSourceConverter x:Key="FotoToImageSourceConverter" />
+        <converters:RestricoesListToStringConverter x:Key="RestricoesConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Spacing="20">
+
+            <Border Style="{StaticResource CardBorder}" Margin="15,10">
+                <StackLayout Spacing="15">
+                    <Label Text="{Binding Matricula.Id, StringFormat='Matrícula ID: {0}'}" Style="{StaticResource SubHeadline}" IsVisible="{Binding IsEditMode}"/>
+
+                    <StackLayout Spacing="5">
+                        <Label Text="Aluno (CPF)"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Entry Grid.Column="0" Text="{Binding Matricula.AlunoMatricula.Cpf}" Placeholder="Digite o CPF e clique em buscar" Keyboard="Numeric" MaxLength="14" Margin="0,0,10,0"/>
+                            <Button Grid.Column="1" Command="{Binding SearchAlunoByCpfCommand}" Style="{StaticResource ButtonPrimary}" HeightRequest="40" WidthRequest="40" Padding="0">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b6;" />
+                                </Button.ImageSource>
+                            </Button>
+                        </Grid>
+
+                        <Border IsVisible="{Binding Matricula.AlunoMatricula.Nome, Converter={StaticResource NotNullOrEmptyConverter}}"
+                                Stroke="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
+                                StrokeThickness="1"
+                                Padding="10" 
+                                Margin="0,10,0,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+                                <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, *">
+                                    <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                                           Source="{Binding Matricula.AlunoMatricula.Foto, Converter={StaticResource FotoToImageSourceConverter}}"
+                                           Aspect="AspectFill"
+                                           HeightRequest="60"
+                                           WidthRequest="60"
+                                           Margin="0,0,15,0">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="30,30" RadiusX="30" RadiusY="30" />
+                                        </Image.Clip>
+                                    </Image>
+
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Matricula.AlunoMatricula.Nome}" FontAttributes="Bold" VerticalOptions="Center"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Matricula.AlunoMatricula.Cpf, StringFormat='CPF: {0}'}" FontSize="Small" VerticalOptions="Center"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Matricula.AlunoMatricula.DataNascimento, StringFormat='Nasc.: {0:dd/MM/yyyy}'}" FontSize="Small" VerticalOptions="Center"/>
+                                </Grid>
+                        </Border>
+                    </StackLayout>
+
+
+                    <StackLayout Spacing="5">
+                        <Label Text="Plano"/>
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                            <Picker Grid.Column="0" ItemsSource="{Binding Planos}"
+                                    SelectedItem="{Binding SelectedPlano}"
+                                    ItemDisplayBinding="{Binding Tipo}"
+                                    Title="Selecione um Plano"/>
+                            <Button Grid.Column="1" Command="{Binding AddPlanoCommand}" Style="{StaticResource ButtonPrimary}" HeightRequest="40" WidthRequest="40" Padding="0">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe145;" />
+                                </Button.ImageSource>
+                            </Button>
+                            <Button Grid.Column="2" Command="{Binding EditPlanoCommand}" Style="{StaticResource ButtonSecondary}" HeightRequest="40" WidthRequest="40" Padding="0"
+                                    IsVisible="{Binding SelectedPlano, Converter={StaticResource IsNotNullConverter}}">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe3c9;" />
+                                </Button.ImageSource>
+                            </Button>
+                            <Button Grid.Column="3" Command="{Binding DeletePlanoCommand}" Style="{StaticResource ButtonDanger}" HeightRequest="40" WidthRequest="40" Padding="0"
+                                    IsVisible="{Binding SelectedPlano, Converter={StaticResource IsNotNullConverter}}">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe872;" />
+                                </Button.ImageSource>
+                            </Button>
+                        </Grid>
+
+                        <Border IsVisible="{Binding SelectedPlano, Converter={StaticResource IsNotNullConverter}}"
+                                Stroke="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
+                                StrokeThickness="1"
+                                Padding="10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <StackLayout Spacing="5">
+                                <Label Text="{Binding SelectedPlano.Tipo, StringFormat='Tipo: {0}'}" FontAttributes="Bold"/>
+                                <Label Text="{Binding SelectedPlano.Descricao, StringFormat='Descrição: {0}'}"/>
+                                <Label Text="{Binding SelectedPlano.Preco, StringFormat='Preço: {0:C}'}"/>
+                                <Label Text="{Binding SelectedPlano.DuracaoEmDias, StringFormat='Duração (dias): {0}'}"/>
+                                <Label Text="Ativo" IsVisible="{Binding SelectedPlano.Ativo}"/>
+                                <Label Text="Inativo" IsVisible="{Binding SelectedPlano.Ativo, Converter={StaticResource InverseBoolConverter}}"/>
+                            </StackLayout>
+                        </Border>
+                        <Label Text="Selecione ou crie um plano." IsVisible="{Binding SelectedPlano, Converter={StaticResource IsNotNullConverter}, ConverterParameter=False}" TextColor="{AppThemeBinding Light=Gray, Dark=LightGray}" FontSize="12" HorizontalOptions="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Spacing="5">
+                        <Label Text="Data de Início"/>
+                        <DatePicker Date="{Binding DataInicioSelecionada, Mode=TwoWay}"/>
+                    </StackLayout>
+                    <StackLayout Spacing="5">
+                        <Label Text="Data de Fim"/>
+                        <Border Padding="10"
+                                Stroke="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
+                                StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Label Text="{Binding Matricula.DataFim, StringFormat='{0:dd/MM/yyyy}'}" VerticalOptions="Center"/>
+                        </Border>
+                    </StackLayout>
+                    <StackLayout Spacing="5">
+                        <Label Text="Objetivo"/>
+                        <Editor Text="{Binding Matricula.Objetivo}" Placeholder="Descreva o objetivo da matrícula..." AutoSize="TextChanges" HeightRequest="80"/>
+                    </StackLayout>
+
+                    <Border Padding="15" StrokeThickness="1" Stroke="{AppThemeBinding Light=#E0E0E0, Dark=#404040}" Margin="0,5,0,0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+
+                        <StackLayout Spacing="10">
+                            <!-- Título da Seção -->
+                            <Label Text="Restrições e Observações"
+                                   FontAttributes="Bold"
+                                   FontSize="16"/>
+
+                            <!-- Expander com um Header que parece um campo de formulário -->
+                            <toolkit:Expander>
+                                <toolkit:Expander.Header>
+                                    <Border Stroke="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
+                                                StrokeThickness="1"
+                                                Padding="12"
+                                                BackgroundColor="Transparent">          
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5"/>
+                                        </Border.StrokeShape>
+
+                                        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Matricula.RestricoesMedicas, Converter={StaticResource RestricoesConverter}}"
+                                                   VerticalOptions="Center"
+                                                   LineBreakMode="TailTruncation"
+                                                   FontSize="14" />
+
+                                            <!-- O ícone de seta do Expander já aparece por padrão, então não precisamos adicionar outro -->
+                                        </Grid>
+                                    </Border>
+                                </toolkit:Expander.Header>
+
+                                <toolkit:Expander.Content>
+                                    <!-- Um contêiner para a lista com um fundo sutil e margem -->
+                                    <Border Padding="10" 
+                                            Margin="0,10,0,0" 
+                                            Stroke="Transparent" 
+                                            StrokeThickness="1"
+                                            BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#2c2c2c}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5" />
+                                        </Border.StrokeShape>
+                                        <CollectionView ItemsSource="{Binding SelectableRestricoes}"
+                                                        SelectionMode="None">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="helpers:SelectableRestricaoItem">
+                                                    <!-- Adicionando um pouco mais de padding vertical para cada item -->
+                                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="0,6">
+                                                        <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected, Mode=TwoWay}" VerticalOptions="Center"/>
+                                                        <Label Grid.Column="1" Text="{Binding DisplayName}" VerticalOptions="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </Border>
+                                </toolkit:Expander.Content>
+                            </toolkit:Expander>
+
+                            <!-- Editor de Observações, agora dentro do mesmo grupo visual -->
+                            <Editor Text="{Binding Matricula.ObservacoesRestricoes}"
+                                    Placeholder="Detalhes adicionais sobre as restrições..."
+                                    AutoSize="TextChanges"
+                                    HeightRequest="80"
+                                    Margin="0,5,0,0"/>
+                        </StackLayout>
+                    </Border>
+
+                    <StackLayout Spacing="5">
+                        <Label Text="Laudo Médico"/>
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <Entry Grid.Column="0" Text="{Binding Matricula.LaudoMedico.ContentType}" Placeholder="Nenhum arquivo selecionado" IsReadOnly="True" Margin="0,0,10,0"/>
+                            <Button Grid.Column="1" Text="" Command="{Binding SelecionarFotoLaudoCommand}" Style="{StaticResource ButtonPrimary}" HeightRequest="40" Padding="15,0">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe226;" />
+                                </Button.ImageSource>
+                            </Button>
+                            <Button Grid.Column="2" Text="" Command="{Binding ClearLaudoCommand}" Style="{StaticResource ButtonDanger}" HeightRequest="40" Padding="15,0" IsVisible="{Binding Matricula.LaudoMedico, Converter={StaticResource IsNotNullConverter}}">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe14c;" />
+                                </Button.ImageSource>
+                            </Button>
+                        </Grid>
+                        <Label Text="Nenhum laudo anexado." IsVisible="{Binding Matricula.LaudoMedico, Converter={StaticResource IsNotNullConverter}, ConverterParameter=False}" TextColor="{AppThemeBinding Light=Gray, Dark=LightGray}" FontSize="12" HorizontalOptions="Center"/>
+                    </StackLayout>
+
+                </StackLayout>
+            </Border>
+
+            <!-- Botões de Ação -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="15,10">
+                <Button Grid.Column="0" Text="Cancelar" Command="{Binding CancelCommand}" Style="{StaticResource ButtonSecondary}" HeightRequest="50">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe5c9;" />
+                    </Button.ImageSource>
+                </Button>
+                <Button Grid.Column="1" Text="Salvar" Command="{Binding SaveMatriculaCommand}" Style="{StaticResource ButtonPrimary}" HeightRequest="50">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe161;" />
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

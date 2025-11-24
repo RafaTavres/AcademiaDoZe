@@ -1,4 +1,5 @@
-﻿using AcademiaDoZe.Presentation.AppMaui.Message;
+﻿using AcademiaDoZe.Presentation.AppMaui.Helpers;
+using AcademiaDoZe.Presentation.AppMaui.Message;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace AcademiaDoZe.Presentation.AppMaui
@@ -8,6 +9,9 @@ namespace AcademiaDoZe.Presentation.AppMaui
         public App()
         {
             InitializeComponent();
+
+            // Registrar a instância nos recursos da aplicação, em App.xaml.cs após InitializeComponent()
+            Current.Resources["LocalizedStrings"] = LocalizationManager.Instance;
 
             // aplicar o tema salvo nas preferências
             AplicarTema();
@@ -20,6 +24,19 @@ namespace AcademiaDoZe.Presentation.AppMaui
             {
                 // m.Value contém o valor enviado na mensagem
                 AplicarTema();
+            });
+
+            // assinar para receber mensagens de alteração de preferências da cultura - toda vez que o usuário alterar a cultura, essa mensagem será enviada
+            WeakReferenceMessenger.Default.Register<CulturaPreferencesUpdatedMessage>(this, (r, m) =>
+            {
+                // Troca o idioma e notifica a UI imediatamente. m traz o valor enviado na mensagem, no caso a cultura selecionada
+
+                LocalizationManager.Instance.SetCulture(m.Value);
+
+                // abrir dashboard
+
+                Shell.Current.GoToAsync("//dashboard");
+
             });
         }
 
